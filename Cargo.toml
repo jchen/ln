@@ -1,0 +1,25 @@
+[package]
+name = "ln"
+description = "Cloudflare worker shortlinks."
+repository = "https://github.com/jchen/ln"
+license = "MIT"
+version = "0.0.1"
+authors = ["Jiahua Chen <hey@jiahua.io>"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+
+[dependencies]
+cfg-if = "0.1.2"
+worker = "0.0.9"
+rand = { version = "0.7.3", features = ["wasm-bindgen"] }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+opt-level = "s"
+# We don't really need panics since we're in Cloudflare Workers...
+panic = "abort"

@@ -1,0 +1,25 @@
+name = "ln"
+workers_dev = false
+compatibility_date = "2022-01-20"
+main = "build/worker/shim.mjs"
+routes = [
+	{ pattern = "jc.hn", custom_domain = true }
+]
+
+kv_namespaces = [
+  { binding = "URLS", preview_id = "cceb9239be5741b591e4bf674a2ef541", id = "ccda36125aac475cbcb7121ed859334b" },
+  { binding = "REVERSE_URLS", preview_id = "cd77add42f8b47dda019f05eaddc3f1d", id = "fc83dc40b58e4e1fa463e17938c34f96" }
+]
+
+[vars]
+
+[build]
+command = "cargo install -q worker-build && worker-build --release"
+
+[dev]
+port = 8787
+
+[[rules]]
+fallthrough = true
+globs = ["**/*.wasm"]
+type = "CompiledWasm"
