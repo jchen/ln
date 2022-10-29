@@ -56,13 +56,10 @@ pub async fn create(req: Request, ctx: RouteContext<()>) -> Result<String> {
                             // If the URL is already in the KV, we update to the new stub (preserving the old one), and update the reverse lookup
                             // This retains previously created links, but allows us to overwrite them.
                             let current_link = kv.get(&dest_stub).text().await?;
-                            match current_link {
-                                Some(current_link) => {
-                                    // Overwrite the existing link if this stub exists even (this gives us ability to edit existing stubs)
-                                    kv.delete(&dest_stub).await?;
-                                    reverse_kv.delete(&current_link).await?;
-                                }
-                                None => {}
+                            if let Some(current_link) = current_link {
+                                // Overwrite the existing link if this stub exists even (this gives us ability to edit existing stubs)
+                                kv.delete(&dest_stub).await?;
+                                reverse_kv.delete(&current_link).await?;
                             }
                             // Puts the new stub -> url
                             kv.put(&dest_stub, &dest_url)?.execute().await?;
