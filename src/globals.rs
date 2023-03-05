@@ -6,7 +6,7 @@ pub const URL_KEY: &str = "url";
 pub const STUB_KEY: &str = "stub";
 
 pub fn default_redirect() -> Result<Response> {
-    Response::redirect(Url::parse("https://jiahua.io?from=jc.hn").unwrap())
+    Response::redirect(Url::parse("https://jiahua.io").unwrap())
 }
 
 pub fn missing_redirect() -> Result<Response> {
